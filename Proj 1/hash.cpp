@@ -5,6 +5,7 @@ using namespace std;
 
 
 void hashTable::hashTable(int size = 0) {
+
 	capacity = getPrime(size);
 
 }
@@ -17,30 +18,30 @@ void hashTable::insert(const std::string &key, void *pv = NULL) {
 
 int hashTable::hash(const std::string &key) {
 	
-	int hash = 0;
+	int hashValue = 0;
 
 	for (int i=0; i < key.length(); i++)
-		hash = 37*hash + key[i];
+		hashValue = 37*hashValue + key[i];
 
-	hash %= capacity;
+	hashValue %= capacity;
 
-	return hash;
+	return hashValue;
 }
 
 
 static unsigned int hashTable::getPrime(int size) {
 
-	int primes [7];
+	vector<int> primes;
 
-	primes[0] = 100003;
-	primes[1] = 505919;
-	primes[2] = 1054007;
-	primes[3] = 2380481;
-	primes[4] = 4114741;
-	primes[5] = 6699197;
-	primes[6] = 8487821;
+	primes.push_back(100003);
+	primes.push_back(505919);
+	primes.push_back(1054007);
+	primes.push_back(2380481);
+	primes.push_back(4114741);
+	primes.push_back(6699197);
+	primes.push_back(8487821);
 
-	for (i=0; i < primes.length(); i++)
-		if primes[i] < size
+	for (int i=0; i < primes.size(); i++)
+		if (primes[i] > size)
 			return primes[i];
 }
