@@ -6,13 +6,22 @@
 using namespace std;
 
 int main() {
-    hashTable testTable(10);
+    // hashTable testTable(10);
+    // string key = "duh";
+    // bool test = testTable.contains(key);
+    // cout << "table contains key: " << test << endl;
+    // int insert = testTable.insert(key);
+    // cout << insert << endl;
+    // test = testTable.contains(key);
+    // cout << "table contains key: " << test << endl;
+
     return 0;
 }
 
 hashTable::hashTable(int size) {
     capacity = getPrime(size);
     data.resize(capacity);
+    filled = 0;
 }
 
 bool hashTable::contains(const std::string &key) {
@@ -33,10 +42,14 @@ int hashTable::insert(const std::string &key, void *pv) {
     if (contains(key))
         return 1;
 
-    if (filled >= capacity/2)
+    // cout << "filled: " << filled << endl;
+    // cout << "capacity: " << capacity << endl;
+
+    if (filled >= capacity/2) {
         success = rehash();
         if (!success)
             return 2;
+    }
 
     while (data[hashLoc].isOccupied)
         hashLoc++;
@@ -45,6 +58,7 @@ int hashTable::insert(const std::string &key, void *pv) {
         data[hashLoc].key = key;
         data[hashLoc].isOccupied = true;
         data[hashLoc].isDeleted = false;
+        filled++;
         return 0;
     }
 
