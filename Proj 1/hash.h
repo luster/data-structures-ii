@@ -42,6 +42,10 @@ class hashTable {
   // false if the specified key is not in the hash table.
   bool remove(const std::string &key);
 
+  //int length() {
+  //  return capacity;
+  //}
+
  private:
 
   // Each item in the hash table contains:
