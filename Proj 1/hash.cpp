@@ -6,14 +6,15 @@
 using namespace std;
 
 int main() {
-    // hashTable testTable(10);
-    // string key = "duh";
-    // bool test = testTable.contains(key);
-    // cout << "table contains key: " << test << endl;
-    // int insert = testTable.insert(key);
-    // cout << insert << endl;
-    // test = testTable.contains(key);
-    // cout << "table contains key: " << test << endl;
+    hashTable testTable(10);
+    string key = "duh";
+    bool test = testTable.contains(key);
+    cout << "table contains key: " << test << endl;
+    int insert = testTable.insert(key);
+    cout << insert << endl;
+    test = testTable.contains(key);
+    cout << "table contains key: " << test << endl;
+    //cout << testTable.key << endl;
 
     return 0;
 }
@@ -24,16 +25,6 @@ hashTable::hashTable(int size) {
     filled = 0;
 }
 
-bool hashTable::contains(const std::string &key) {
-    int hashLoc = hash(key);
-    while (true) {
-        if (!data[hashLoc].isOccupied) return false;
-        else if (data[hashLoc].key == key) return true;
-        else ++hashLoc %= capacity;
-    }
-    return false;
-}
-
 int hashTable::insert(const std::string &key, void *pv) {
 
     bool success;
@@ -41,9 +32,6 @@ int hashTable::insert(const std::string &key, void *pv) {
     int hashLoc = hash(key);
     if (contains(key))
         return 1;
-
-    // cout << "filled: " << filled << endl;
-    // cout << "capacity: " << capacity << endl;
 
     if (filled >= capacity/2) {
         success = rehash();
@@ -64,10 +52,27 @@ int hashTable::insert(const std::string &key, void *pv) {
 
 }
 
-bool hashTable::rehash() {
-    return true;
-
+bool hashTable::contains(const std::string &key) {
+    int hashLoc = hash(key);
+    while (true) {
+        if (!data[hashLoc].isOccupied) return false;
+        else if (data[hashLoc].key == key) return true;
+        else ++hashLoc %= capacity;
+    }
+    return false;
 }
+
+
+void *hashTable::getPointer(const std::string &key, bool *b) {
+}
+
+
+int setPointer(const std::string &key, void *pv){
+}
+
+bool remove(const std::string &key) {
+}
+
 
 int hashTable::hash(const std::string &key) {
 
@@ -79,6 +84,13 @@ int hashTable::hash(const std::string &key) {
     hashValue %= capacity;
 
     return hashValue;
+}
+
+int findPos(const std::string &key) {
+}
+
+bool hashTable::rehash() {
+    return true;
 }
 
 

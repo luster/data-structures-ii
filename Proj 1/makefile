@@ -11,7 +11,7 @@ debug:
 	g++ -g -o spellDebug.exe spellcheck.cpp hash.cpp
 
 clean:
-	rm -f *.exe *.o *.stackdump *~
+	rm -f *.exe *.o *.stackdump *~ *.swp *.*.swp
 
 backup:
 	test -d backups || mkdir backups
