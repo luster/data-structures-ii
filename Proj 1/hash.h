@@ -43,6 +43,7 @@ class hashTable {
   bool remove(const std::string &key);
 
   int length() { return capacity; }
+  bool datHash() { bool x = rehash(); return x; }
 
  private:
 
