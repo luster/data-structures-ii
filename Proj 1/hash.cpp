@@ -16,6 +16,7 @@ int main() {
     int ins2 = testTable.insert("abcd");
     int ins3 = testTable.insert("dcba");
     int ins4 = testTable.insert("edcba");
+    int ins5 = testTable.insert("dcba");
 
     bool i1 = testTable.contains("abcdefgh");
     bool i2 = testTable.contains("abcd");
@@ -23,6 +24,12 @@ int main() {
     bool i4 = testTable.contains("edcba");
     bool i5 = testTable.contains("stupidbitch");
     bool x = testTable.datHash();
+
+    cout << ins << endl;
+    cout << ins2 << endl;
+    cout << ins3 << endl;
+    cout << ins4 << endl;
+    cout << ins5 << endl;
 
     cout << i1 << endl;
     cout << i2 << endl;
@@ -54,9 +61,10 @@ int hashTable::insert(const std::string &key, void *pv) {
             return 2;
     }
 
-    while (data[hashLoc].isOccupied)
+    while (data[hashLoc].isOccupied) {
         hashLoc++;
         hashLoc %= capacity;
+    }
 
     if (!data[hashLoc].isOccupied) {
         data[hashLoc].key = key;
@@ -66,20 +74,23 @@ int hashTable::insert(const std::string &key, void *pv) {
         return 0;
     }
 
+
 }
 
 bool hashTable::contains(const std::string &key) {
     int hashLoc = hash(key);
-    int fixedHash = hash(key);
 
-    if (!data[hashLoc].isOccupied) return false;
-    else {
-        while (data[hashLoc].key != key) {
-            hashLoc++;
-            hashLoc %= capacity;
-            if (data[hashLoc].key == key) return true;
-            if (hashLoc == fixedHash-1) return false;
-        }
+    if (data[hashLoc].key == key)
+        return true;
+
+    if (!data[hashLoc].isOccupied)
+        return false;
+
+    while (data[hashLoc].isOccupied) {
+       hashLoc++;
+       hashLoc %= capacity;
+       if (data[hashLoc].key == key)
+           return true;
     }
     return false;
 }
@@ -126,29 +137,25 @@ int hashTable::findPos(const std::string &key) {
 }
 
 bool hashTable::rehash() {
-    // new hash table, declare and resize
-    vector<hashItem> tmpData;
+    int oldCapacity = capacity;
     int newSize = getPrime(data.size());
-    tmpData.resize(newSize);
     capacity = newSize;
 
-    int t = tmpData.size();
-    int d = data.size();
-    // swap data and tmpData since class def changes data vector
-    data.swap(tmpData);
-    int ts = tmpData.size();
-    int ds = data.size();
-    cout << t << endl;
-    cout << d << endl;
-    cout << ts << endl;
-    cout << ds << endl;
+    // new hash table vector, declare and resize
+    vector<hashItem> tmpData;
+    tmpData.resize(newSize);
 
-    for (int i=0; i < tmpData.size(); i++) {
+    for (int i=0; i<tmpData.size(); i++) {
+        tmpData[i].isOccupied = false;
+    }
+
+    tmpData.swap(data);
+    for (int i=0; i<tmpData.size(); i++) {
         if (tmpData[i].isOccupied) {
-            int ins = insert(tmpData[i].key);
+            insert(tmpData[i].key);
         }
     }
- 
+
     // free memory
     vector<hashItem>().swap(tmpData);
 
