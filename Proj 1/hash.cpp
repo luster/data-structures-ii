@@ -7,12 +7,28 @@ using namespace std;
 
 int main() {
     hashTable testTable(10);
+    // int ins = testTable.datdatHash("abcdefgh");
+    // int ins2 = testTable.datdatHash("abcd");
+    // int ins3 = testTable.datdatHash("dcba");
+    // int ins4 = testTable.datdatHash("edcba");
+
     int ins = testTable.insert("abcdefgh");
     int ins2 = testTable.insert("abcd");
     int ins3 = testTable.insert("dcba");
     int ins4 = testTable.insert("edcba");
+
+    bool i1 = testTable.contains("abcdefgh");
+    bool i2 = testTable.contains("abcd");
+    bool i3 = testTable.contains("dcba");
+    bool i4 = testTable.contains("edcba");
+    bool i5 = testTable.contains("stupidbitch");
     bool x = testTable.datHash();
 
+    cout << i1 << endl;
+    cout << i2 << endl;
+    cout << i3 << endl;
+    cout << i4 << endl;
+    cout << i5 << endl;
     cout << x << endl;
 
     return 0;
@@ -40,6 +56,7 @@ int hashTable::insert(const std::string &key, void *pv) {
 
     while (data[hashLoc].isOccupied)
         hashLoc++;
+        hashLoc %= capacity;
 
     if (!data[hashLoc].isOccupied) {
         data[hashLoc].key = key;
@@ -53,10 +70,16 @@ int hashTable::insert(const std::string &key, void *pv) {
 
 bool hashTable::contains(const std::string &key) {
     int hashLoc = hash(key);
-    while (true) {
-        if (!data[hashLoc].isOccupied) return false;
-        else if (data[hashLoc].key == key) return true;
-        else ++hashLoc %= capacity;
+    int fixedHash = hash(key);
+
+    if (!data[hashLoc].isOccupied) return false;
+    else {
+        while (data[hashLoc].key != key) {
+            hashLoc++;
+            hashLoc %= capacity;
+            if (data[hashLoc].key == key) return true;
+            if (hashLoc == fixedHash-1) return false;
+        }
     }
     return false;
 }
@@ -86,7 +109,7 @@ int hashTable::hash(const std::string &key) {
 
     hashValue %= capacity;
 
-    cout << hashValue << endl;
+    // error seems to be over here
     return hashValue;
 }
 
@@ -109,24 +132,25 @@ bool hashTable::rehash() {
     tmpData.resize(newSize);
     capacity = newSize;
 
+    int t = tmpData.size();
+    int d = data.size();
     // swap data and tmpData since class def changes data vector
     data.swap(tmpData);
-    cout << "rehash 6" << endl;
+    int ts = tmpData.size();
+    int ds = data.size();
+    cout << t << endl;
+    cout << d << endl;
+    cout << ts << endl;
+    cout << ds << endl;
 
-    //cout << tmpData.size() << endl;
-    //cout << data.size() << endl;
-    cout << tmpData[0].isOccupied << endl;
     for (int i=0; i < tmpData.size(); i++) {
-        //cout << i << endl;
         if (tmpData[i].isOccupied) {
             int ins = insert(tmpData[i].key);
-            cout << ins << endl;
         }
     }
-    cout << "done with rehash" << endl;
-
+ 
     // free memory
-    // vector<hashItem>().swap(tmpData);
+    vector<hashItem>().swap(tmpData);
 
     return true;
 }
