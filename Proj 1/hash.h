@@ -45,6 +45,7 @@ class hashTable {
   int length() { return capacity; }
   bool datHash() { bool x = rehash(); return x; }
   int datdatHash(const std::string &key) {return hash(key);}
+  int find(const std::string &key) { return findPos(key); } 
 
  private:
 

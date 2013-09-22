@@ -1,12 +1,11 @@
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include <string>
-#include "hash.h"
+#include <sstream>
 
 using namespace std;
 
 int main() {
+    string s;
 
     return 0;
 }

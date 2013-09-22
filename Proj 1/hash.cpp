@@ -2,42 +2,11 @@
 #include "hash.h"
 #include <vector>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
 int main() {
-    hashTable testTable(10);
-    // int ins = testTable.datdatHash("abcdefgh");
-    // int ins2 = testTable.datdatHash("abcd");
-    // int ins3 = testTable.datdatHash("dcba");
-    // int ins4 = testTable.datdatHash("edcba");
-
-    int ins = testTable.insert("abcdefgh");
-    int ins2 = testTable.insert("abcd");
-    int ins3 = testTable.insert("dcba");
-    int ins4 = testTable.insert("edcba");
-    int ins5 = testTable.insert("dcba");
-
-    bool i1 = testTable.contains("abcdefgh");
-    bool i2 = testTable.contains("abcd");
-    bool i3 = testTable.contains("dcba");
-    bool i4 = testTable.contains("edcba");
-    bool i5 = testTable.contains("stupidbitch");
-    bool x = testTable.datHash();
-
-    cout << ins << endl;
-    cout << ins2 << endl;
-    cout << ins3 << endl;
-    cout << ins4 << endl;
-    cout << ins5 << endl;
-
-    cout << i1 << endl;
-    cout << i2 << endl;
-    cout << i3 << endl;
-    cout << i4 << endl;
-    cout << i5 << endl;
-    cout << x << endl;
-
     return 0;
 }
 
@@ -181,4 +150,18 @@ unsigned int hashTable::getPrime(int size) {
         }
     }
     return 0;
+}
+
+
+void gen_random(char *s, const int len) {
+        static const char alphanum[] =
+                    "0123456789"
+                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    "abcdefghijklmnopqrstuvwxyz";
+
+            for (int i = 0; i < len; ++i) {
+                        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+                            }
+
+                s[len] = 0;
 }
