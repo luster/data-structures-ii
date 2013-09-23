@@ -49,6 +49,8 @@ int main() {
 
     t2 = clock();
     double timeSpellcheck = ((double) (t2-t1)) / CLOCKS_PER_SEC;
+    cout << "Total time (in seconds) to check document: ";
+    cout << timeSpellcheck << endl;
 
     return 0;
 }
