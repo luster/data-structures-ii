@@ -1,12 +1,45 @@
 #include <iostream>
 #include "hash.h"
-#include <vector>
-#include <string>
-#include <sstream>
 
 using namespace std;
 
 int main() {
+    hashTable t(100);
+    int i1 = t.insert("abc");
+    int i2 = t.insert("xyz");
+    int i3 = t.insert("123");
+
+    bool c1 = t.contains("abc");
+    bool c2 = t.contains("xyz");
+    bool c3 = t.contains("123");
+    bool c4 = t.contains("asdfgawefa");
+    int x = t.dhash("asdfgawefa");
+    cout << x << endl;
+
+    int h1 = t.dhash("abc");
+    int h2 = t.dhash("xyz");
+    int h3 = t.dhash("123");
+    int h4 = t.dhash("asdfgawefa");
+
+    cout << h1 << endl;
+    cout << h2 << endl;
+    cout << h3 << endl;
+    cout << h4 << endl;
+
+   int a = t.length();
+   cout << a << endl;
+
+   bool y = t.datHash();
+   int z = t.length();
+   cout << y << endl;
+   cout << z << endl;
+    c1 = t.contains("abc");
+    c2 = t.contains("xyz");
+    c3 = t.contains("123");
+    c4 = t.contains("asdfgawefa");
+   cout << c1 << c2 << c3 << c4 << endl;
+
+
     return 0;
 }
 
@@ -47,21 +80,12 @@ int hashTable::insert(const std::string &key, void *pv) {
 }
 
 bool hashTable::contains(const std::string &key) {
-    int hashLoc = hash(key);
+    int pos = findPos(key);
 
-    if (data[hashLoc].key == key)
-        return true;
-
-    if (!data[hashLoc].isOccupied)
+    if (pos == -1)
         return false;
-
-    while (data[hashLoc].isOccupied) {
-       hashLoc++;
-       hashLoc %= capacity;
-       if (data[hashLoc].key == key)
-           return true;
-    }
-    return false;
+    else
+        return true;
 }
 
 
@@ -88,8 +112,9 @@ int hashTable::hash(const std::string &key) {
         hashValue = 37*hashValue + key[i];
 
     hashValue %= capacity;
+    if (hashValue < 0)
+        hashValue += capacity;
 
-    // error seems to be over here
     return hashValue;
 }
 
@@ -99,34 +124,36 @@ int hashTable::findPos(const std::string &key) {
     if (!data[hashValue].isOccupied)
         return -1;
 
-    while (data[hashValue].key != key)
-        hashValue++;
+    while (data[hashValue].key != key) {
+        if (!data[hashValue].isOccupied)
+            return -1;
+        else {
+            hashValue++;
+            hashValue %= capacity;
+        }
+    }
 
     return hashValue;
 }
 
 bool hashTable::rehash() {
-    int oldCapacity = capacity;
-    int newSize = getPrime(data.size());
-    capacity = newSize;
+    vector<hashItem> old = data;
+    filled = 0;
 
-    // new hash table vector, declare and resize
-    vector<hashItem> tmpData;
-    tmpData.resize(newSize);
+    int nextSize = getPrime(capacity);
+    data.resize(nextSize);
+    capacity = nextSize;
 
-    for (int i=0; i<tmpData.size(); i++) {
-        tmpData[i].isOccupied = false;
+    for (int i=0; i<capacity; i++) {
+        data[i].isOccupied = false;
     }
 
-    tmpData.swap(data);
-    for (int i=0; i<tmpData.size(); i++) {
-        if (tmpData[i].isOccupied) {
-            insert(tmpData[i].key);
+    for (int i=0; i<old.size(); i++) {
+        if (old[i].isOccupied) {
+            insert(old[i].key);
+            filled++;
         }
     }
-
-    // free memory
-    vector<hashItem>().swap(tmpData);
 
     return true;
 }
@@ -152,16 +179,3 @@ unsigned int hashTable::getPrime(int size) {
     return 0;
 }
 
-
-void gen_random(char *s, const int len) {
-        static const char alphanum[] =
-                    "0123456789"
-                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                    "abcdefghijklmnopqrstuvwxyz";
-
-            for (int i = 0; i < len; ++i) {
-                        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
-                            }
-
-                s[len] = 0;
-}
