@@ -15,7 +15,7 @@ int spellCheck(ifstream &txt_file);
 int main() {
 
     // prompt user for dict file
-    string filename;
+    string filename, outfilename;
     cout << "Enter name of dictionary: ";
     cin >> filename;
     clock_t t1 = clock();
@@ -31,12 +31,22 @@ int main() {
 
     clock_t t2 = clock();
     double timeDict = ((double) (t2-t1)) / CLOCKS_PER_SEC;
+    cout << "Total time (in seconds) to load dictionary: ";
+    cout << timeDict << endl;
 
 
-    // prompt txt doc and spellcheck and output
+    // prompt user for document to spellcheck
+    cout << "Enter name of input file: ";
+    cin >> filename;
+    cout << "Enter name of output file: ";
+    cin >> outfilename;
+
+    input.close();
+    ifstream spellInput(filename.c_str());
     t1 = clock();
 
-    // end cpu time and output
+    int spellCheckSuccess = spellCheck(spellInput);
+
     t2 = clock();
     double timeSpellcheck = ((double) (t2-t1)) / CLOCKS_PER_SEC;
 
