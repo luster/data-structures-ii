@@ -10,7 +10,7 @@ using namespace std;
 hashTable dict(100000);
 
 bool loadDictionary(ifstream &dict_file);
-int spellCheck(ifstream &txt_file);
+int spellCheck(ifstream &input, ofstream &output);
 
 int main() {
 
@@ -43,10 +43,10 @@ int main() {
 
     input.close();
     ifstream spellInput(filename.c_str());
+
+    ofstream output(outfilename.c_str());
     t1 = clock();
-
-    int spellCheckSuccess = spellCheck(spellInput);
-
+    int spellCheckSuccess = spellCheck(spellInput, output);
     t2 = clock();
     double timeSpellcheck = ((double) (t2-t1)) / CLOCKS_PER_SEC;
     cout << "Total time (in seconds) to check document: ";
@@ -68,7 +68,7 @@ bool loadDictionary(ifstream &dict_stream) {
     return true;
 }
 
-int spellCheck(ifstream &txt_file) {
+int spellCheck(ifstream &input, ofstream &output) {
     // for word in document
     //      keep track of line number
     //      look up to see if word in dictionary
