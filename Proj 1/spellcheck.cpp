@@ -1,3 +1,6 @@
+// Ethan Lusterman
+// ECE165, Fall 2013
+
 #include <iostream>
 #include <fstream>
 #include <sstream>

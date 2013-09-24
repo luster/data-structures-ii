@@ -1,3 +1,6 @@
+// Ethan Lusterman
+// ECE165, Fall 2013
+
 #ifndef _HASH_H
 #define _HASH_H
 
