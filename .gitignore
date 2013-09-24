@@ -11,3 +11,9 @@
 *.lai
 *.la
 *.a
+
+*.exe
+
+
+.DS_Store
+spellDebug.exe.dSYM/
