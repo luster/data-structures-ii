@@ -48,6 +48,7 @@ int hashTable::insert(const std::string &key, void *pv) {
 }
 
 bool hashTable::contains(const std::string &key) {
+
     int pos = findPos(key);
 
     if (pos == -1)
@@ -57,19 +58,47 @@ bool hashTable::contains(const std::string &key) {
 }
 
 
-// void *hashTable::getPointer(const std::string &key, bool *b) {
-//     b = false;
-//
-//     int hashLoc = hash(key);
-//
-// }
+void* hashTable::getPointer(const std::string &key, bool *b) {
+
+    int pos = findPos(key);
+
+    if (pos == -1) {
+        *b = false;
+        return NULL;
+    }
+    else {
+        *b = true;
+        return data[pos].pv;
+    }
+
+}
 
 
-// int setPointer(const std::string &key, void *pv){
-// }
+int hashTable::setPointer(const std::string &key, void *pv) {
 
-// bool remove(const std::string &key) {
-// }
+    int pos = findPos(key);
+
+    if (pos == -1)
+        return 1;
+    else {
+        data[pos].pv = pv;
+        return 0;
+    }
+
+}
+
+bool hashTable::remove(const std::string &key) {
+
+    int pos = findPos(key);
+
+    if (pos == -1)
+        return false;
+    else {
+        data[pos].isDeleted = true;
+        return true;
+    }
+
+}
 
 
 int hashTable::hash(const std::string &key) {
