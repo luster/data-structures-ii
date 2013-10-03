@@ -86,6 +86,9 @@ class heap {
             void *pData;
     };
 
+    std::vector<node> data;
+    hashTable *mapping;
+
     void percolateUp(int posCur);
 
     void percolateDown(int posCur);
