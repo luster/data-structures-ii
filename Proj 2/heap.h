@@ -86,6 +86,9 @@ class heap {
             void *pData;
     };
 
+    int capacity;
+    int filled;
+
     std::vector<node> data;
     hashTable *mapping;
 
