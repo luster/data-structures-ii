@@ -8,11 +8,26 @@ using namespace std;
 
 
 heap::heap(int capacity) {
+    this->capacity = capacity;
+    this->filled = 0;
     data.resize(capacity+1);
     mapping = new hashTable(capacity*2);
 }
 
 int heap::insert(const std::string &id, int key, void *pv) {
+    if (filled == capacity)
+        return 1;
+    else if (filled < capacity && mapping->contains(id))
+        return 2;
+    else {
+        if (filled == capacity - 1)
+            data.resize(capacity*2);
+
+        int posCur = data.size();
+
+        percolateUp(posCur);
+        return 0;
+    }
 }
 
 
