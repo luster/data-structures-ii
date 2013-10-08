@@ -75,14 +75,24 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
 
     int nodePos = getPos(pn);
 
+    // set optional pointers
     if (pKey)
         *pKey = data[nodePos].key;
     if (ppData)
         ppData = data[nodePos].pData;
 
+    // remove id from hashtable
     mapping->remove(id);
 
-    // extra shit
+    // overwrite nodePos with last element, set new pointer,
+    data[nodePos] = data[filled--];
+    mapping->setPointer(data[nodePos].id, &data[nodePos]);
+
+    // check heap order property and percolate up or down
+    if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
+        percolateDown(nodePos);
+    else if (data[nodePos].key < data[nodePos/2].key)
+        percolateUp(nodePos);
 
     return 0;
 
