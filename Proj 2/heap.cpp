@@ -81,6 +81,9 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
         ppData = data[nodePos].pData;
 
     mapping->remove(id);
+
+    // extra shit
+
     return 0;
 
 }
