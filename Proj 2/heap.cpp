@@ -56,7 +56,7 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     if (pKey)
         *pKey = data[1].key;
     if (ppData)
-        *ppData = data[1].pData;
+        ppData = data[1].pData;
 
     mapping->remove(data[1].id);
 
@@ -78,7 +78,7 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     if (pKey)
         *pKey = data[nodePos].key;
     if (ppData)
-        *ppData = data[nodePos].pv;
+        ppData = data[nodePos].pData;
 
     mapping->remove(id);
     return 0;
