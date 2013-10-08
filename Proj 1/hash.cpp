@@ -63,7 +63,7 @@ void* hashTable::getPointer(const std::string &key, bool *b) {
 
     int pos = findPos(key);
 
-    if (pos == -1) {
+    if (pos == -1 || data[pos].isDeleted) {
         *b = false;
         return NULL;
     }
