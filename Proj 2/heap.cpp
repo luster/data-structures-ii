@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 heap::heap(int capacity) {
     this->capacity = capacity;
     this->filled = 0;
@@ -44,6 +43,23 @@ int heap::insert(const std::string &id, int key, void *pv) {
 
 
 int heap::setKey(const std::string &id, int key) {
+    bool keyExists = false;
+    node *pn = static_cast<node *> (mapping->getPointer(id, &keyExists));
+
+    if (!keyExists)
+        return 1;
+
+    int nodePos = getPos(pn);
+
+    data[nodePos].key = key;
+
+    // percolate up or down
+    if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
+        percolateDown(nodePos);
+    else if (data[nodePos].key < data[nodePos/2].key)
+        percolateUp(nodePos);
+
+    return 0;
 }
 
 
