@@ -67,6 +67,22 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
 
 
 int heap::remove(const std::string &id, int *pKey, void *ppData) {
+    bool exists = false;
+    node *pn = static_cast<node *> (mapping->getPointer(id, &exists));
+
+    if (!exists)
+        return 1;
+
+    int nodePos = getPos(pn);
+
+    if (pKey)
+        *pKey = data[nodePos].key;
+    if (ppData)
+        *ppData = data[nodePos].pv;
+
+    mapping->remove(id);
+    return 0;
+
 }
 
 
