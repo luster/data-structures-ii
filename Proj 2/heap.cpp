@@ -53,7 +53,7 @@ int heap::setKey(const std::string &id, int key) {
 
     data[nodePos].key = key;
 
-    // percolate up or down
+    // percolate up or down if heap order property violated
     if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
         percolateDown(nodePos);
     else if (data[nodePos].key < data[nodePos/2].key)
@@ -67,6 +67,7 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     if (filled == 0)
         return 1;
 
+    // set optional pointers
     if (pId)
         *pId = data[1].id;
     if (pKey)
@@ -74,8 +75,10 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     if (ppData)
         ppData = data[1].pData;
 
+    // remove string from hashtable
     mapping->remove(data[1].id);
 
+    // overwrite first item with last and percolate down
     data[1] = data[filled--];
     percolateDown(1);
     return 0;
@@ -146,13 +149,3 @@ int heap::getPos(node *pn) {
     int pos = pn - &data[0];
     return pos;
 }
-
-// delarations of data vector and hash table pointer
-//      std::vector<node> data; // the actual binary heap
-//      hashTable *mapping; // maps ids to node pointers
-// an example of a call to the hash table's setPointer member function
-//      mapping -> setPointer(data[posCur].id, &data[posCur]);
-// an example of a call to the hash table's getPointer member function
-//      node *pn = static_cast<node *> (mapping->getPointer(id, &b));
-// filling in ppData in deleteMin
-//      *(static_cast<void **> (ppData)) = data[1].pData;

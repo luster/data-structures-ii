@@ -86,7 +86,10 @@ class heap {
             void *pData;
     };
 
+    // capacity is the total current size of the heap
     int capacity;
+
+    // filled is the number of elements currently in the heap
     int filled;
 
     // the actual binary heap
