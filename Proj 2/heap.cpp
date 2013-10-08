@@ -48,6 +48,21 @@ int heap::setKey(const std::string &id, int key) {
 
 
 int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
+    if (filled == 0)
+        return 1;
+
+    if (pId)
+        *pId = data[1].id;
+    if (pKey)
+        *pKey = data[1].key;
+    if (ppData)
+        *ppData = data[1].pData;
+
+    mapping->remove(data[1].id);
+
+    data[1] = data[filled--];
+    percolateDown(1);
+    return 0;
 }
 
 
@@ -83,7 +98,6 @@ void heap::percolateDown(int posCur) {
 }
 
 int heap::getPos(node *pn) {
-
     int pos = pn - &data[0];
     return pos;
 }

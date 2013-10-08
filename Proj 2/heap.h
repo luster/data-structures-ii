@@ -89,7 +89,10 @@ class heap {
     int capacity;
     int filled;
 
+    // the actual binary heap
     std::vector<node> data;
+
+    // maps ids to node pointers
     hashTable *mapping;
 
     void percolateUp(int posCur);
