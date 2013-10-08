@@ -40,6 +40,7 @@ int hashTable::insert(const std::string &key, void *pv) {
         data[hashLoc].key = key;
         data[hashLoc].isOccupied = true;
         data[hashLoc].isDeleted = false;
+        data[hashLoc].pv = pv;
         filled++;
         return 0;
     }
