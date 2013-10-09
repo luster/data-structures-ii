@@ -122,16 +122,15 @@ int hashTable::findPos(const std::string &key) {
     if (!data[hashValue].isOccupied)
         return -1;
 
-    while (data[hashValue].key != key) {
-        if (!data[hashValue].isOccupied)
-            return -1;
-        else {
-            hashValue++;
-            hashValue %= capacity;
-        }
+    while (data[hashValue].isOccupied) {
+        if (data[hashValue].key == key)
+            return hashValue;
+
+        hashValue++;
+        hashValue %= capacity;
     }
 
-    return hashValue;
+    return -1;
 }
 
 bool hashTable::rehash() {
@@ -149,7 +148,6 @@ bool hashTable::rehash() {
     for (int i=0; i<old.size(); i++) {
         if (old[i].isOccupied) {
             insert(old[i].key);
-            filled++;
         }
     }
 
