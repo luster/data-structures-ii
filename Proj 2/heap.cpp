@@ -79,7 +79,8 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     mapping->remove(data[1].id);
 
     // overwrite first item with last and percolate down
-    data[1] = data[filled--];
+    data[1] = data[filled];
+    filled--;
     percolateDown(1);
     return 0;
 }
@@ -104,10 +105,11 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     mapping->remove(id);
 
     // overwrite nodePos with last element, set new pointer,
-    data[nodePos] = data[filled--];
+    data[nodePos] = data[filled];
     mapping->setPointer(data[nodePos].id, &data[nodePos]);
+    filled--;
 
-    // check heap order property and percolate up or down
+    // check heap order property and percolate up or down if necessary
     if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
         percolateDown(nodePos);
     else if (data[nodePos].key < data[nodePos/2].key)
@@ -122,10 +124,13 @@ void heap::percolateUp(int posCur) {
     int hole = posCur;
     node tmp = data[posCur];
 
-    for ( ; hole > 1 && tmp.key < data[hole/2].key; hole /= 2)
+    for ( ; hole > 1 && tmp.key < data[hole/2].key; hole /= 2) {
         data[hole] = data[hole/2];
+        mapping->setPointer(data[hole].id, &data[hole]);
+    }
 
     data[hole] = tmp;
+    mapping->setPointer(data[hole].id, &data[hole]);
 }
 
 void heap::percolateDown(int posCur) {
@@ -137,12 +142,15 @@ void heap::percolateDown(int posCur) {
         child = hole * 2;
         if (child != filled && data[child+1].key < data[child].key)
             child++;
-        if (data[child].key < tmp.key)
+        if (data[child].key < tmp.key) {
             data[hole] = data[child];
+            mapping->setPointer(data[hole].id, &data[hole]);
+        }
         else
             break;
     }
     data[hole] = tmp;
+    mapping->setPointer(data[hole].id, &data[hole]);
 }
 
 int heap::getPos(node *pn) {
