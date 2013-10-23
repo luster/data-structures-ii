@@ -36,7 +36,7 @@ int hashTable::insert(const std::string &key, void *pv) {
         hashLoc %= capacity;
     }
 
-    if (!data[hashLoc].isOccupied || data[hashLoc].isDeleted) {
+    if (!data[hashLoc].isOccupied) {
         data[hashLoc].key = key;
         data[hashLoc].isOccupied = true;
         data[hashLoc].isDeleted = false;
@@ -44,8 +44,6 @@ int hashTable::insert(const std::string &key, void *pv) {
         filled++;
         return 0;
     }
-
-    return -1;
 
 
 }
@@ -125,7 +123,7 @@ int hashTable::findPos(const std::string &key) {
         return -1;
 
     while (data[hashValue].isOccupied) {
-        if (data[hashValue].key == key && !data[hashValue].isDeleted)
+        if (data[hashValue].key == key)
             return hashValue;
 
         hashValue++;
@@ -136,31 +134,24 @@ int hashTable::findPos(const std::string &key) {
 }
 
 bool hashTable::rehash() {
-    try {
-        vector<hashItem> old = data;
-        filled = 0;
+    vector<hashItem> old = data;
+    filled = 0;
 
-        int nextSize = getPrime(capacity);
-        data.clear();
-        data.resize(nextSize);
-        capacity = nextSize;
+    int nextSize = getPrime(capacity);
+    data.resize(nextSize);
+    capacity = nextSize;
 
-        for (int i=0; i<capacity; i++) {
-            data[i].isOccupied = false;
-        }
-
-        for (int i=0; i<old.size(); i++) {
-            if (old[i].isOccupied && !old[i].isDeleted) {
-                insert(old[i].key);
-            }
-        }
-        old.clear();
-        return true;
+    for (int i=0; i<capacity; i++) {
+        data[i].isOccupied = false;
     }
-    catch (const bad_alloc &b) {
-        cerr << "Memory Allocation Failed." << endl;
-        return false;
+
+    for (int i=0; i<old.size(); i++) {
+        if (old[i].isOccupied) {
+            insert(old[i].key);
+        }
     }
+
+    return true;
 }
 
 
