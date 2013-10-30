@@ -110,6 +110,10 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     filled--;
 
     // check heap order property and percolate up or down if necessary
+    bool percDown;
+    percDown = (nodePos*2 <= filled ) && (key > data[nodePos*2].key) || \
+               (nodePos*2+1 <= filled) && (key > data[nodePos*2+1].key) || \
+               (nodePos == 1);
     if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
         percolateDown(nodePos);
     else if (data[nodePos].key < data[nodePos/2].key)
