@@ -1,1 +1,1 @@
-../Proj 1/hash.cpp
+../program1/hash.cpp

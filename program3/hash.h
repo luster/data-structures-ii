@@ -1,1 +1,1 @@
-../Proj 1/hash.h
+../program1/hash.h
