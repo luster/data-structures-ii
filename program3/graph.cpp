@@ -77,6 +77,7 @@ void graph::runDijkstra(std::string sourceVertex) {
         for (it=v->adj.begin(); it!=v->adj.end(); it++) {
             int newCost = v->dist + (*it)->cost;
             if (newCost < (*it)->destination->dist) {
+                (*it)->destination->dist = newCost;
                 Q.setKey((*it)->destination->name,newCost);
                 (*it)->destination->prev = v;
             }
@@ -92,23 +93,23 @@ void graph::writeOut(std::string filename) {
     ofstream out(filename.c_str());
 
     list<vertex *>::iterator it;
+    string path;
 
     for (it=this->vertices.begin(); it!=this->vertices.end(); it++) {
         out << (*it)->name << ": ";
         vertex *v = (*it);
-        if (!v->prev) {
-            if (!v->dist)
-                out << "[" << v->name << "]" << endl;
-            else
-                out << " NO PATH" << endl;
-        }
+        if (v->dist == INFINITY)
+            out << "NO PATH" << endl;
+        else if (v->dist == 0)
+            out << v->dist << " [" << v->name << "]" << endl;
         else {
-            out << "[";
+            path = "";
+            out << v->dist << " [" << v->name << ", ";
             while (v->prev != NULL) {
-                if (v->prev && v->prev->prev)
-                    out << v->name << ", ";
+                if (v->prev->prev != NULL)
+                    out << v->prev->name << ", ";
                 else
-                    out << v->name << "]" << endl;
+                    out << v->prev->name << "]" << endl;
                 v = v->prev;
             }
         }
