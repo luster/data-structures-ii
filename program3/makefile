@@ -13,6 +13,9 @@ hash.o: hash.cpp hash.h
 graph.o: graph.cpp graph.h
 	g++ -c graph.cpp
 
+clean:
+	rm -rf *.o *.exe  *.exe.dSYM
+
 debug:
 	g++ -g -o dijkstraDebug.exe dijkstra.cpp heap.cpp hash.cpp graph.cpp
 

@@ -73,7 +73,7 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     if (pKey)
         *pKey = data[1].key;
     if (ppData)
-        ppData = data[1].pData;
+        *(static_cast<void **> (ppData)) = data[1].pData;
 
     // remove string from hashtable
     mapping->remove(data[1].id);
