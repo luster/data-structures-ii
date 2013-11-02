@@ -14,8 +14,8 @@ bool graph::insertVertex(std::string id) {
     if (checkVertex(id))
         return false;
 
-    vertex *v;
-    v->id = id;
+    vertex *v = new vertex();
+    v->name = id;
     v->isKnown = false;
     v->dist = INT_MAX;
     v->prev = NULL;
@@ -36,12 +36,17 @@ bool graph::checkVertex(std::string id) {
 
 bool graph::insertEdge(std::string start, std::string end, int dist) {
 
-    edge e;
-    e.cost = dist;
-    e.destination = (vertex *) vertex_map->getPointer(end);
+    insertVertex(start);
+    insertVertex(end);
 
-    vertex *v = (vertex *) vertex_map->getPointer(start);
-    v->adj.push_back(e);
+    bool keyExists = false;
+    vertex *dest = static_cast<vertex *> (vertex_map->getPointer(end, &keyExists));
+    edge *e = new edge();
+    e->cost = dist;
+    e->destination = dest;
+
+    vertex *source = static_cast<vertex *> (vertex_map->getPointer(start, &keyExists));
+    source->adj.push_back(e);
 
     return true;
 }

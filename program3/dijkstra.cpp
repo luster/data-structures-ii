@@ -7,6 +7,19 @@
 
 using namespace std;
 
+void loadGraph(graph &myGraph, ifstream &in) {
+    string line, start, end;
+    int cost;
+
+    while (getline(in,line)) {
+        istringstream stream(line);
+        stream >> start >> end >> cost;
+
+        myGraph.insertEdge(start,end,cost);
+    }
+    return;
+}
+
 int main() {
     // a few declarations, the graph to be stored, filenames and streams
     string infile, outfile;
@@ -20,7 +33,7 @@ int main() {
 
     // load graph
     graph myGraph(100);
-    // loadGraph(&graph);
+    loadGraph(myGraph, input);
 
     // user enters the id of a starting vertex until it's a valid vertex
     while (!inputGood) {
@@ -29,7 +42,7 @@ int main() {
 
         if (myGraph.checkVertex(vertexStart)) {
             inputGood = true;
-            cout << endl;
+            //cout << endl;
         }
         else
             cout << "Invalid Vertex: " << vertexStart << endl;
@@ -45,7 +58,7 @@ int main() {
     cout << timeDijk << endl;
 
     // prompt user for output file
-    cout << "Enter name of output file: " << endl;
+    cout << "Enter name of output file: ";
     cin >> outfile;
 
     // write output file

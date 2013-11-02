@@ -41,10 +41,10 @@ class graph {
     // nested vertex class
     class vertex {
       public:
-        std::string id;
+        std::string name;
         bool isKnown;
         int dist;
-        std::list<edge> adj;
+        std::list<edge *> adj;
         vertex *prev;
     };
 
