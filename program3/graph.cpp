@@ -73,12 +73,14 @@ void graph::runDijkstra(std::string sourceVertex) {
     while (Q.deleteMin(NULL,NULL,&v) != 1) {
         v->isKnown = true;
         list<edge *>::iterator it;
+        if (v->dist == INFINITY)
+            continue;
 
         for (it=v->adj.begin(); it!=v->adj.end(); it++) {
             int newCost = v->dist + (*it)->cost;
             if (newCost < (*it)->destination->dist) {
                 (*it)->destination->dist = newCost;
-                Q.setKey((*it)->destination->name,newCost);
+                //Q.setKey((*it)->destination->name,newCost);
                 (*it)->destination->prev = v;
             }
         }
@@ -96,6 +98,7 @@ void graph::writeOut(std::string filename) {
     string path;
 
     for (it=this->vertices.begin(); it!=this->vertices.end(); it++) {
+        cout << "here" << endl;
         out << (*it)->name << ": ";
         vertex *v = (*it);
         if (v->dist == INFINITY)
@@ -103,15 +106,13 @@ void graph::writeOut(std::string filename) {
         else if (v->dist == 0)
             out << v->dist << " [" << v->name << "]" << endl;
         else {
-            path = "";
-            out << v->dist << " [" << v->name << ", ";
+            out << v->dist << " [";
+            path = v->name;
             while (v->prev != NULL) {
-                if (v->prev->prev != NULL)
-                    out << v->prev->name << ", ";
-                else
-                    out << v->prev->name << "]" << endl;
+                path = v->prev->name + ", " + path;
                 v = v->prev;
             }
+            out << path << "]" << endl;
         }
     }
 
