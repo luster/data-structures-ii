@@ -13,15 +13,13 @@ graph::graph(int capacity) {
     vertex_map = new hashTable(capacity);
 }
 
+
 bool graph::insertVertex(std::string id) {
     if (checkVertex(id))
         return false;
 
     vertex *v = new vertex();
     v->name = id;
-    //v->isKnown = false;
-    //v->dist = INFINITY;
-    //v->prev = NULL;
 
     this->vertex_map->insert(id, v);
     this->vertices.push_back(v);
@@ -37,7 +35,7 @@ bool graph::checkVertex(std::string id) {
 }
 
 
-bool graph::insertEdge(std::string start, std::string end, int dist) {
+void graph::insertEdge(std::string start, std::string end, int dist) {
 
     insertVertex(start);
     insertVertex(end);
@@ -51,7 +49,7 @@ bool graph::insertEdge(std::string start, std::string end, int dist) {
     vertex *source = static_cast<vertex *> (vertex_map->getPointer(start, &keyExists));
     source->adj.push_back(e);
 
-    return true;
+    return;
 }
 
 
@@ -80,12 +78,11 @@ void graph::runDijkstra(std::string sourceVertex) {
             int newCost = v->dist + (*it)->cost;
             if (newCost < (*it)->destination->dist) {
                 (*it)->destination->dist = newCost;
-                //Q.setKey((*it)->destination->name,newCost);
+                Q.setKey((*it)->destination->name,newCost);
                 (*it)->destination->prev = v;
             }
         }
     }
-
 
     return;
 }
@@ -98,7 +95,6 @@ void graph::writeOut(std::string filename) {
     string path;
 
     for (it=this->vertices.begin(); it!=this->vertices.end(); it++) {
-        cout << "here" << endl;
         out << (*it)->name << ": ";
         vertex *v = (*it);
         if (v->dist == INFINITY)
