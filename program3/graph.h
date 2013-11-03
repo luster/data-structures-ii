@@ -58,6 +58,7 @@ class graph {
     void writeOut(std::string filename);
 
   private:
+    // Nested edge class
     class edge;
 
     // Nested vertex class
