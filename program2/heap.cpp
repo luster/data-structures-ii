@@ -53,8 +53,13 @@ int heap::setKey(const std::string &id, int key) {
 
     data[nodePos].key = key;
 
+    bool percDown;
+    percDown = ((nodePos*2 <= filled ) && (data[nodePos].key > data[nodePos*2].key)) || \
+               ((nodePos*2+1 <= filled) && (data[nodePos].key > data[nodePos*2+1].key)) || \
+               (nodePos == 1);
     // percolate up or down if heap order property violated
-    if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
+    // if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
+    if (percDown)
         percolateDown(nodePos);
     else if (data[nodePos].key < data[nodePos/2].key)
         percolateUp(nodePos);
@@ -99,7 +104,7 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     if (pKey)
         *pKey = data[nodePos].key;
     if (ppData)
-        ppData = data[nodePos].pData;
+        *(static_cast<void **> (ppData)) = data[nodePos].pData;
 
     // remove id from hashtable
     mapping->remove(id);

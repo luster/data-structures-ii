@@ -35,8 +35,10 @@ bool graph::checkVertex(std::string id) {
 
 void graph::insertEdge(std::string start, std::string end, int dist) {
 
-    insertVertex(start);
-    insertVertex(end);
+    //cout << start << " " << end << " " << dist << " ";
+    bool st1 = insertVertex(start);
+    bool st2 = insertVertex(end);
+    //cout << st1 << " " << st2 << endl;
 
     bool keyExists = false;
     vertex *dest = static_cast<vertex *> (vertex_map->getPointer(end, &keyExists));
@@ -68,16 +70,16 @@ void graph::runDijkstra(std::string sourceVertex) {
     vertex *v;
     while (Q.deleteMin(NULL,NULL,&v) != 1) {
         v->isKnown = true;
-        list<edge *>::iterator it;
+        list<edge *>::iterator it2;
         if (v->dist == INFINITY)
             continue;
 
-        for (it=v->adj.begin(); it!=v->adj.end(); it++) {
-            int newCost = v->dist + (*it)->cost;
-            if (newCost < (*it)->destination->dist) {
-                (*it)->destination->dist = newCost;
-                Q.setKey((*it)->destination->name,newCost);
-                (*it)->destination->prev = v;
+        for (it2=v->adj.begin(); it2!=v->adj.end(); it2++) {
+            int newCost = v->dist + (*it2)->cost;
+            if (newCost < (*it2)->destination->dist) {
+                (*it2)->destination->dist = newCost;
+                Q.setKey((*it2)->destination->name,newCost);
+                (*it2)->destination->prev = v;
             }
         }
     }
