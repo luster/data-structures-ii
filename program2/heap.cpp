@@ -114,7 +114,8 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     percDown = ((nodePos*2 <= filled ) && (data[nodePos].key > data[nodePos*2].key)) || \
                ((nodePos*2+1 <= filled) && (data[nodePos].key > data[nodePos*2+1].key)) || \
                (nodePos == 1);
-    if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
+    //if (data[nodePos].key > data[nodePos*2].key || data[nodePos].key > data[nodePos*2+1].key || nodePos == 1)
+    if (percDown)
         percolateDown(nodePos);
     else if (data[nodePos].key < data[nodePos/2].key)
         percolateUp(nodePos);
