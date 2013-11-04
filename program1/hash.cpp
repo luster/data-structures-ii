@@ -20,8 +20,6 @@ int hashTable::insert(const std::string &key, void *pv) {
 
     bool success;
 
-    int hashLoc = hash(key);
-
     if (contains(key))
         return 1;
 
@@ -30,6 +28,8 @@ int hashTable::insert(const std::string &key, void *pv) {
         if (!success)
             return 2;
     }
+
+    int hashLoc = hash(key);
 
     while (data[hashLoc].isOccupied) {
         hashLoc++;

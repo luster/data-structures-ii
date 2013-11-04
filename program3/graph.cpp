@@ -68,8 +68,10 @@ void graph::runDijkstra(std::string sourceVertex) {
     }
 
     vertex *v;
+    int i=0;
     while (Q.deleteMin(NULL,NULL,&v) != 1) {
         v->isKnown = true;
+        cout << v->name << endl;
         list<edge *>::iterator it2;
         if (v->dist == INFINITY)
             continue;
@@ -82,6 +84,7 @@ void graph::runDijkstra(std::string sourceVertex) {
                 (*it2)->destination->prev = v;
             }
         }
+        i++;
     }
 
     return;
