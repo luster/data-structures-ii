@@ -31,10 +31,7 @@ bool graph::insertVertex(std::string id) {
 
 bool graph::checkVertex(std::string id) {
 
-    if (this->vertex_map->contains(id))
-        return true;
-    else
-        return false;
+    return this->vertex_map->contains(id);
 
 }
 
