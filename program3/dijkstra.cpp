@@ -30,6 +30,10 @@ int main() {
     cout << "Enter name of graph file: ";
     cin >> infile;
     ifstream input(infile.c_str());
+    if (!input.is_open()) {
+        cout << "Invalid Filename: " << infile << endl;
+        exit(1);
+    }
 
     // load graph
     graph myGraph(100);
@@ -40,10 +44,8 @@ int main() {
         cout << "Enter a valid vertex id for the starting vertex: ";
         cin >> vertexStart;
 
-        if (myGraph.checkVertex(vertexStart)) {
+        if (myGraph.checkVertex(vertexStart))
             inputGood = true;
-            //cout << endl;
-        }
         else
             cout << "Invalid Vertex: " << vertexStart << endl;
     }
