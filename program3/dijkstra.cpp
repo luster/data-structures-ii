@@ -3,6 +3,7 @@
 // dijkstra.cpp
 
 #include <iostream>
+#include <cstdlib>
 #include "graph.h"
 #include <fstream>
 #include <sstream>
