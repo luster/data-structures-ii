@@ -16,5 +16,6 @@
 
 
 .DS_Store
-spellDebug.exe.dSYM/
+dijkstraDebug.exe.dSYM/
 *.zip
+backups
