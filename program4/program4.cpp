@@ -22,6 +22,7 @@ int main() {
 
     string line, a, b, c;
     while (getline(in,a) && getline(in,b) && getline(in,c)) {
+//        cout << a << endl; cout << b << endl; cout << c << endl;
 
         // initialize
         for (int i=0; i<LEN; i++) {
@@ -49,16 +50,16 @@ int main() {
                     if (c[x+y] == b[y])
                         d[x][y+1] = 1;
                 } else {
-                    break;
+                    //break;
                 }
 
             // print matrix
-            for (int p=0; p<la+1; p++) {
-                for (int q=0; q<lb+1; q++) {
-                    cout << d[p][q] << " ";
-                } cout << endl;
-            }
-            cout << endl;
+//            for (int p=0; p<la+1; p++) {
+//                for (int q=0; q<lb+1; q++) {
+//                    cout << d[p][q] << " ";
+//                } cout << endl;
+//            }
+//            cout << endl;
 
             }
         }
