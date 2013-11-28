@@ -28,20 +28,20 @@ int d[LEN][LEN] = {0};
  * A and B piles, where you want the shuffled deck C
  * to preserve the orders of A and B.
  *
- * Example of merge:    A: CAT
+ * Example of merge:    A: cat
  *                      B: dog
- *                      C: CAdTog
+ *                      C: cadtog
  *
- * Example of !merge:   A: CAT
+ * Example of !merge:   A: cat
  *                      B: dog
- *                      C: CAgoTd
+ *                      C: cagotd
  *
  * For a valid merge, the program outputs the merged word
  * with the letters of word A capitalized to the specified
  * output filestream. Letters in A are kept as left as possible
  * in the case that multiple valid merges are possible.
  *
- * Example:             A: AA
+ * Example:             A: aa
  *                      B: ba
  *                      C: abaa -> AbAa, not AbaA
  *
