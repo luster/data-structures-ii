@@ -1,3 +1,7 @@
+// Ethan Lusterman
+// ECE165, Fall 2013
+// program4.cpp
+
 #include <iostream>
 #include <fstream>
 #include <string>
