@@ -105,7 +105,7 @@ int d[LEN][LEN] = {0};
             int i=la;
             int j=lb;
             while (i>0 && j>=0) {
-                if (d[i][j] and (j == 0 or !d[i][j-1])) {
+                if (d[i][j] == 1 && (j == 0 || d[i][j-1] == 0)) {
                     c[i+j-1] = toupper(c[i+j-1]);
                     i--;
                 } else {
